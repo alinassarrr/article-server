@@ -1,6 +1,5 @@
 <?php
 require_once("Model.php");
-require_once("../connection/connection.php");
 class Category extends Model{
 
     private int $id;
