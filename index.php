@@ -1,5 +1,6 @@
 <?php 
 
+require("routes/api.php");
 // This block is used to extract the route name from the URL
 //----------------------------------------------------------
 // Define your base directory 
@@ -15,39 +16,24 @@ if (strpos($request, $base_dir) === 0) {
 if ($request == '') {
     $request = '/';
 }
-
 //Examples: 
 //http://localhost/getArticles -------> $request = "getArticles"
 //http://localhost/ -------> $request = "/" (why? because of the if)
 
 // This block is used to extract the route name from the URL
-//----------------------------------------------------------
 
-
-//Routing starts here (Mapping between the request and the controller & method names)
-//It's an key-value array where the value is an key-value array
-//----------------------------------------------------------
-$apis = [
-    '/articles'         => ['controller' => 'ArticleController', 'method' => 'getAllArticles'],
-    '/delete_articles'         => ['controller' => 'ArticleController', 'method' => 'deleteAllArticles'],
-
-    '/login'         => ['controller' => 'AuthController', 'method' => 'login'],
-    '/register'         => ['controller' => 'AuthController', 'method' => 'register'],
-
-];
 
 //----------------------------------------------------------
-
-
 //Routing Logic here 
 //This is a dynamic logic, that works on any array... 
 //----------------------------------------------------------
 if (isset($apis[$request])) {
-    $controller_name = $apis[$request]['controller']; //if $request == /articles, then the $controller_name will be "ArticleController" 
+    $controller_name = $apis[$request]['controller']; 
+    //if $request == /articles, then the $controller_name will be "ArticleController" 
     $method = $apis[$request]['method'];
     require_once "controllers/{$controller_name}.php";
 
-    $controller = new $controller_name();
+    $controller = new $controller_name($mysqli);
     if (method_exists($controller, $method)) {
         $controller->$method();
     } else {
