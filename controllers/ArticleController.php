@@ -90,6 +90,21 @@ class ArticleController extends BaseController{
     }
     
     public function deleteAllArticles(){
+        try{
+            if($_SERVER['REQUEST_METHOD']== "POST"){
+                $article = Article::deleteAll($this->mysqli);
+                $article ? static::success_response("All Articles are Deleted."):static::error_response("Failed to Delete All Articles");
+                return;
+            }
+            else{
+                static::error_response(message: "Bad Request!");
+                return;
+            }
+        }
+        catch(Exception $e){
+            static::error_response($e->getMessage());
+        }
+    }
 
 }
 
