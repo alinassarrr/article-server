@@ -80,16 +80,16 @@ class ArticleController extends BaseController{
        static::success_response("Article Deleted Successfully"):static::error_response("Failed To Delete Article");
        return;
     }
-        static::error_response(message: "Bad Request!");
-        return;
-
-    }
-    catch(Exception $e){
-        static::error_response($e->getMessage());
-    }
-    }
+    static::error_response(message: "Bad Request!");
+    return;
     
-    public function deleteAllArticles(){
+}
+catch(Exception $e){
+    static::error_response($e->getMessage());
+}
+}
+
+public function deleteAllArticles(){
         try{
             if($_SERVER['REQUEST_METHOD']== "POST"){
                 $article = Article::deleteAll($this->mysqli);
@@ -106,11 +106,19 @@ class ArticleController extends BaseController{
         }
     }
 
+    public function getArticlesOfCategory(){
+        try{
+            if($_SERVER['REQUEST_METHOD']== "POST"){
+                $data = json_decode(file_get_contents("php://input"),true);
+                $articles = Article::getAllByCategory($this->mysqli,$data["id"]);
+                $article_array = ArticleService::articlesToArray($articles);
+                (count($article_array)>0)?static::success_response($article_array):static::success_response("No Result Found");
+                return;
+            }
+        }
+        catch(Exception $e){
+            static::error_response($e->getMessage());
+        }
+    
+    }
 }
-
-//To-Do:
-
-//1- Try/Catch in controllers ONLY!!! 
-//2- Find a way to remove the hard coded response code (from ResponseService.php)
-//3- Include the routes file (api.php) in the (index.php) -- In other words, seperate the routing from the index (which is the engine)
-//4- Create a BaseController and clean some imports 
