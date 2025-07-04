@@ -14,8 +14,9 @@ $apis = [
     '/updateCategory'=> ['controller'=> 'CategoryController', 'method'=> 'updateCategory'],
     '/deleteCategory'=> ['controller'=> 'CategoryController', 'method'=> 'deleteCategory'],
     '/deleteCategories'=> ['controller' => 'CategoryController', 'method' => 'deleteAllCategories'],
+
+
+    '/articlesOfCategory'=> ['controller'=> 'ArticleController', 'method'=> 'getArticlesOfCategory'],
     
 
-    '/login'         => ['controller' => 'AuthController', 'method' => 'login'],
-    '/register'         => ['controller' => 'AuthController', 'method' => 'register'],
 ];
