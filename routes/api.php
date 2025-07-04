@@ -8,6 +8,13 @@ $apis = [
     '/updateArticle'=> ['controller'=> 'ArticleController', 'method'=> 'updateArticle'],
     '/deleteArticle'=> ['controller'=> 'ArticleController', 'method'=> 'deleteArticle'],
     '/deleteArticles'=> ['controller' => 'ArticleController', 'method' => 'deleteAllArticles'],
+    
+    '/categories'         => ['controller' => 'CategoryController', 'method' => 'getAllCategories'],
+    '/addNewCategory'=> ['controller'=> 'CategoryController', 'method'=> 'addNewCategory'],
+    '/updateCategory'=> ['controller'=> 'CategoryController', 'method'=> 'updateCategory'],
+    '/deleteCategory'=> ['controller'=> 'CategoryController', 'method'=> 'deleteCategory'],
+    '/deleteCategories'=> ['controller' => 'CategoryController', 'method' => 'deleteAllCategories'],
+    
 
     '/login'         => ['controller' => 'AuthController', 'method' => 'login'],
     '/register'         => ['controller' => 'AuthController', 'method' => 'register'],
