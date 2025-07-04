@@ -34,15 +34,6 @@ abstract class Model{
         return $objects; //we are returning an array of objects!!!!!!!!
     }
 
-    // public static function create(mysqli $mysqli,array $data){
-    //     $query = sprintf("INSERT INTO `sttic::$table` (".implode()") VALUES(?)",static::$table);
-    //     $stmt = $mysqli->prepare($query);
-    //     for($i = 0; $i < count($data); $i++){
-    //         $stmt->bind_param("", $key, $value);
-    //     }
-    // }
-
-
     public static function add(mysqli $mysqli,array $data){
         
             $columns = [];
@@ -76,12 +67,23 @@ abstract class Model{
             return $stmt->affected_rows;
         }
 
+        public static function delete(mysqli $mysqli, int $id){
+            $query = sprintf("DELETE FROM %s WHERE id = ?",static::$table);
+            $stmt = $mysqli->prepare($query);
+            $stmt->bind_param("i",$id);
+            $stmt->execute();
+            return $stmt->affected_rows;
+        }
 
-
+        public static function deleteAll(mysqli $mysqli){
+            $data = static::all($mysqli); 
+            foreach($data as $record){
+                static::delete($mysqli,($record->getId())); // used the article getId 
+            }
+            return true;
+        }
 }
-           
-    
-
+     
     //you have to continue with the same mindset
     //Find a solution for sending the $mysqli everytime... 
     //Implement the following: 
