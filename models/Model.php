@@ -60,7 +60,21 @@ abstract class Model{
             $stmt->execute();
             return $stmt->affected_rows;
         }
-       
+        public static function update(mysqli $mysqli, int $id,array $data){
+            $columns = [];
+            $params = [];
+            foreach($data as $record => $value){
+                $columns[] = "`$record`=?";
+                $params[] = $value;
+            }
+            $count = count($columns);
+            $columns = implode(", ", $columns);
+            $query = sprintf("UPDATE %s SET %s WHERE id = %s",static::$table,$columns,$id);
+            $stmt= $mysqli->prepare($query);
+            $stmt->bind_param(str_repeat("s", $count), ...$params);
+            $stmt->execute();
+            return $stmt->affected_rows;
+        }
 
 
 
