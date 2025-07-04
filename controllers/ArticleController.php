@@ -36,7 +36,27 @@ class ArticleController extends BaseController{
             static::error_response($e->getMessage());
         }
     }
-     
+     public function updateArticle(){
+        try{
+            if($_SERVER['REQUEST_METHOD'] == "POST"){
+                $data = json_decode(file_get_contents("php://input"),true);
+                if(!isset($data["id"])){
+                    static::error_response("Incomplete Request");
+                    return;
+                }
+                $id =$data['id'];
+                $record = $data['values'];
+                $article = Article::update($this->mysqli, $id,$record);
+                ($article > 0)?
+                    static::success_response("Article Updated Successfully"):static::error_response("Failed To Update Article");
+        }
+    }
+    
+    catch(Exception $e){
+            static::error_response($e->getMessage());
+        }
+    }
+
 
     public function deleteAllArticles(){
         die("Deleting...");
