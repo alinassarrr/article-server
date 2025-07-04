@@ -70,5 +70,12 @@ class Article extends Model{
 
         return $articles;
 }
-
+    public static function getCategory(mysqli $mysqli, int $id) {
+        $query = "SELECT categories.name FROM categories JOIN articles ON articles.category_id = categories.id WHERE articles.id = ?";                               
+        $stmt = $mysqli->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+        return $result;
+}
 }
