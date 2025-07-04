@@ -4,6 +4,8 @@
 //----------------------------------------------------------
 $apis = [
     '/articles'         => ['controller' => 'ArticleController', 'method' => 'getAllArticles'],
+    '/addNewArticle'=> ['controller'=> 'ArticleController', 'method'=> 'addNewArticle'],
+    '/updateArticle'=> ['controller'=> 'ArticleController', 'method'=> 'updateArticle'],
     '/delete_articles'         => ['controller' => 'ArticleController', 'method' => 'deleteAllArticles'],
 
     '/login'         => ['controller' => 'AuthController', 'method' => 'login'],
