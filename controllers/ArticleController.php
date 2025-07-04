@@ -40,11 +40,15 @@ class ArticleController extends BaseController{
         try{
             if($_SERVER['REQUEST_METHOD'] == "POST"){
                 $data = json_decode(file_get_contents("php://input"),true);
-                if(!isset($data["id"])){
+                $id =$data['id'];
+                if(!isset($id)){
                     static::error_response("Incomplete Request");
                     return;
                 }
-                $id =$data['id'];
+                if(!Article::find($this->mysqli, $id)){
+                static::error_response("Article Not Found!");
+                return;
+             }
                 $record = $data['values'];
                 $article = Article::update($this->mysqli, $id,$record);
                 ($article > 0)?
@@ -57,10 +61,36 @@ class ArticleController extends BaseController{
         }
     }
 
-
-    public function deleteAllArticles(){
-        die("Deleting...");
+    public function deleteArticle(){
+        try{
+            if($_SERVER['REQUEST_METHOD']=="POST"){
+                $data = json_decode(file_get_contents("php://input"),true);
+                $id = $data["id"];
+                if(!isset($id)){
+                static::error_response("Incomplete Request");
+                return;
+        }
+        $found = Article::find($this->mysqli, $id);
+        if(!$found){
+            static::error_response(message: "Article Not Found!");
+            return;
+        }
+        $article = Article::delete($this->mysqli, $id);
+       ($article > 0)?
+       static::success_response("Article Deleted Successfully"):static::error_response("Failed To Delete Article");
+       return;
     }
+        static::error_response(message: "Bad Request!");
+        return;
+
+    }
+    catch(Exception $e){
+        static::error_response($e->getMessage());
+    }
+    }
+    
+    public function deleteAllArticles(){
+
 }
 
 //To-Do:
