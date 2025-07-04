@@ -17,6 +17,7 @@ $apis = [
 
 
     '/articlesOfCategory'=> ['controller'=> 'ArticleController', 'method'=> 'getArticlesOfCategory'],
+    '/getCategory'=> ['controller'=> 'ArticleController','method'=>'getCategoryOfArticle']
     
 
 ];
