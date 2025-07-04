@@ -1,28 +1,28 @@
 <?php 
-
 require(__DIR__ . "/../models/Article.php");
 require(__DIR__ . "/../connection/connection.php");
 require(__DIR__ . "/../services/ArticleService.php");
-require(__DIR__ . "/../services/ResponseService.php");
+require(__DIR__ . "/./BaseController.php");
 
-class ArticleController{
-    
+class ArticleController extends BaseController{
     public function getAllArticles(){
-        global $mysqli;
-
-        if(!isset($_GET["id"])){
-            $articles = Article::all($mysqli);
-            $articles_array = ArticleService::articlesToArray($articles); 
-            echo ResponseService::success_response($articles_array);
+        try{
+            if(!isset($_GET["id"])){
+                $articles = Article::all($this->mysqli);
+                $articles_array = ArticleService::articlesToArray($articles); 
+                static::success_response($articles_array);
+                return; // i removed it from success_response since it is reaching the else directly
+            }
+            $id = $_GET["id"];
+            $article = Article::find($this->mysqli, $id)->toArray();
+            static::success_response($article);
             return;
         }
-
-        $id = $_GET["id"];
-        $article = Article::find($mysqli, $id)->toArray();
-        echo ResponseService::success_response($article);
-        return;
+        catch(Exception $e){
+            static::error_response($e->getMessage());
+        }
     }
-
+    
     public function deleteAllArticles(){
         die("Deleting...");
     }
