@@ -121,4 +121,18 @@ public function deleteAllArticles(){
         }
     
     }
+     public function getCategoryOfArticle(){
+        try{
+            if($_SERVER['REQUEST_METHOD']== "POST"){
+                $data = json_decode(file_get_contents("php://input"),true);
+                $category = Article::getCategory($this->mysqli,$data["id"]);
+                $category?static::success_response($category):static::error_response("No Category");
+                return;
+            }
+        }
+        catch(Exception $e){
+            static::error_response($e->getMessage());
+        }
+    
+    }
 }
