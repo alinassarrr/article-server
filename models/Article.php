@@ -7,6 +7,7 @@ class Article extends Model{
     private string $name; 
     private string $author; 
     private string $description; 
+    private int $category_id;
     
     protected static string $table = "articles";
 
@@ -15,6 +16,7 @@ class Article extends Model{
         $this->name = $data["name"];
         $this->author = $data["author"];
         $this->description = $data["description"];
+        $this->category_id= $data["category_id"];
     }
 
     public function getId(): int {
@@ -32,6 +34,9 @@ class Article extends Model{
     public function getDescription(): string {
         return $this->description;
     }
+    public function getCategoryId(): int {
+        return $this->category_id;
+    }
 
     public function setName(string $name){
         $this->name = $name;
@@ -44,9 +49,12 @@ class Article extends Model{
     public function setDescription(string $description){
         $this->description = $description;
     }
+    public function setCategoryId(int $category_id){
+        $this->category_id = $category_id;
+    }
 
     public function toArray(){
-        return [$this->id, $this->name, $this->author, $this->description];
+        return [$this->id, $this->name, $this->author, $this->description,$this->category_id];
     }
     
 }
