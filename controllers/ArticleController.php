@@ -11,7 +11,7 @@ class ArticleController extends BaseController{
                 $articles = Article::all($this->mysqli);
                 $articles_array = ArticleService::articlesToArray($articles); 
                 static::success_response($articles_array);
-                return; // i removed it from success_response since it is reaching the else directly
+                return; // i removed it from success_response and add it here since it is reaching the else directly
             }
             $id = $_GET["id"];
             $article = Article::find($this->mysqli, $id)->toArray();
@@ -23,6 +23,21 @@ class ArticleController extends BaseController{
         }
     }
     
+    public function addNewArticle(){
+        try{
+            if($_SERVER['REQUEST_METHOD'] == "POST"){
+                $data = json_decode(file_get_contents("php://input"),true);
+                $article = Article::add($this->mysqli, $data);
+                ($article > 0)?
+                    static::success_response("Article Created Successfully"):static::error_response("Failed To Create Article");
+        }
+    }
+    catch(Exception $e){
+            static::error_response($e->getMessage());
+        }
+    }
+     
+
     public function deleteAllArticles(){
         die("Deleting...");
     }
